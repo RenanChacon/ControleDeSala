@@ -1,7 +1,15 @@
+import java.util.Scanner;
+
 public class Sala {
+    private  Scanner entrada = new Scanner(System.in);
+    
     private Aluno[] alunos = new Aluno[60];
     private int tamanho = 0;
 
+    public Aluno getAluno(int pos) {
+        return alunos[pos];
+    }
+    
     public boolean estaVazia(){
         return (tamanho == 0);
     }
@@ -19,7 +27,7 @@ public class Sala {
             }
         }
         return -1;
-        }
+        } 
 
     public boolean compara (Aluno s1, Aluno s2){
         return s1.getRgm() == s2.getRgm();
@@ -65,17 +73,40 @@ public class Sala {
         return true;
     }
 
-    public void listar() {
-    if (estaVazia()) {
-        System.out.println("Lista vazia");
-        return;
-        }
+    public void listarAlunos() {
+        if (estaVazia()) {
+            System.out.println("Lista vazia");
+            return;
+            }
 
-    for (int i = 0; i < tamanho; i++) {
-        System.out.println("RGM: " + alunos[i].getRgm());
+        for (int i = 0; i < tamanho; i++) {
+            System.out.println();
+            System.out.println("RGM: " + alunos[i].getRgm());
+            alunos[i].mostrarMaterias();
         }
     }
 
+    public void addAluno() {
+        System.out.println("Digite o RGM do aluno: ");
+        int rgm = entrada.nextInt(); entrada.nextLine();
+                        
+        Aluno aluno = new Aluno(rgm);
+                        
+        boolean repetir2 = true;
+        while(repetir2){
+            System.out.println("Digite o nome da matéria que queira adicionar: ");
+            String nome = entrada.nextLine();
+            System.out.println("Digite a nota do aluno nessa materia: ");
+            double nota = entrada.nextDouble(); entrada.nextLine();
+            aluno.addMateria(nome, nota);
 
+            System.out.println("Deseja adicionar mais uma matéria?(s/n): ");
 
+            if(entrada.nextLine().equalsIgnoreCase("n")) {
+                repetir2= false;
+            }
+        }
+
+        inserirOrdenado(aluno);
+    }
 }
